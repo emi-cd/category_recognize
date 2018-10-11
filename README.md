@@ -3,7 +3,7 @@ Sort batteries by category
 
 
 ## Main Idea
-![summary](https://bitbucket.org/emimDon/battery_-recognition/raw/865d659210e5ebc953e0d5885a6cfe477204a6a6/imgs/summary.jpg)
+![summary](https://github.com/emi-cd/category_recognize/blob/img/imgs/summary.jpg?raw=true)
 
 
 # Dependency
