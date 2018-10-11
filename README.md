@@ -14,6 +14,8 @@ tesseract : 4.0.0
 
 # Setup
 1) Set directory like below.  
+But you don't need to prepare 'videos', 'UNKNOWN' and 'train_data' directory.  
+Please care that you have to set model.h5.  
 .  
 ├── take_video.py  
 ├── main.py  
@@ -61,43 +63,45 @@ tesseract : 4.0.0
 		3) Print ID, LABEL  
 		4) Delete the video.  
 	Else:  
-		3) Go to OCR. OCR recognize charactor. Also it should return ['Alkaline', 'LIION', 'NIMH', 'NICD'] or 'UNKOWN'.  
+		3) Go to OCR. OCR recognize charactor. Also it should return ['Alkaline', 'LIION', 'NIMH', 'NICD'] or 'UNKOWN'.
+
 		If Label is not 'UNKNOWN':  
 			4) These frames from the video go to 'train_data' directory.  
 			5) Print ID, LABEL  
 			6) Delete the video.  
-	
 		Else:  
 			4) These frames from the video fo to 'UNKNOWN' directory.  
 			5) Delete the video.  
-		
+
 
 ## take_video.py  
-	Take videos. Add a video to videos directory.  
-	> python take_video.py
+Take videos. Add a video to videos directory.  
+> python take_video.py
 ## main.py  
-	The main flow.  Retrain the model or label the battery.
-	> python main.py --mode LABEL  
-	or  
-	> python main.py --mode RETRAIN
+The main flow.  Retrain the model or label the battery.
+> python main.py --mode LABEL  
+
+or  
+> python main.py --mode RETRAIN
 ### labeling_CNN.py  
-	Determine the label of battery from the video. Use OCR.  
-	> python labeling_CNN.py --path ./videos/00000.mov -M ./models/model.h5 --debug -N 3
+Determine the label of battery from the video. Use OCR.  
+> python labeling_CNN.py --path ./videos/00000.mov -M ./models/model.h5 --debug -N 3
 ### labeling_OCR.py  
-	Determine the label of battery from the video. Use CNN.  
-	> python labeling_OCR.py --path './videos/00000.mov' --debug
+Determine the label of battery from the video. Use CNN.  
+> python labeling_OCR.py --path './videos/00000.mov' --debug
 ### retraining.py  
-	Retraining the model. 
-	> python retraining.py --model ./models/model.h5 --debug 
+Retraining the model.
+> python retraining.py --model ./models/model.h5 --debug
 ### split_video.py  
-	This include cropping function and video_2_frame function.  
-	Please use as a module.
+This include cropping function and video_2_frame function.  
+Please use as a module.
 
 
 # Usage
 ## Main flow
-	> python main.py --mode LABEL  
-	and  
-	> python take_video.py
-## Retraining the model 
-	> python main.py --mode RETRAIN
+> python main.py --mode LABEL  
+
+and  
+> python take_video.py
+## Retraining the model
+> python main.py --mode RETRAIN
