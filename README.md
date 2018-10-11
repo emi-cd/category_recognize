@@ -1,6 +1,7 @@
 # Battery
 Sort batteries by category
 
+
 ## Main Idea
 ![summary](https://bitbucket.org/emimDon/battery_-recognition/raw/865d659210e5ebc953e0d5885a6cfe477204a6a6/imgs/summary.jpg)
 
@@ -55,18 +56,24 @@ tesseract : 4.0.0
 1) Take videos. These videos go to 'videos' directory.  
 	Video's name is  battery's ID.  
 2) Label the battery using by CNN. It return ['Alkaline', 'LIION', 'NIMH', 'NICD'] or 'UNKOWN'.  
-If Label is not 'UNKNOWN':
-	3) Print ID, LABEL
-	4) Delete the video.
-Else:
-	3) Go to OCR. OCR recognize charactor. Also it should return ['Alkaline', 'LIION', 'NIMH', 'NICD'] or 'UNKOWN'.
-	If Label is not 'UNKNOWN':
-		4) These frames from the video go to 'train_data' directory.
-		5) Print ID, LABEL
-		6) Delete the video.
-	Else:
-		4) These frames from the video fo to 'UNKNOWN' directory.
-		5) Delete the video.
+
+If Label is not 'UNKNOWN':  
+	3) Print ID, LABEL  
+	4) Delete the video.  
+	
+Else:  
+	3) Go to OCR. OCR recognize charactor. Also it should return ['Alkaline', 'LIION', 'NIMH', 'NICD'] or 'UNKOWN'.  
+	
+	If Label is not 'UNKNOWN':  
+		4) These frames from the video go to 'train_data' directory.  
+		5) Print ID, LABEL  
+		6) Delete the video.  
+		
+	Else:  
+		4) These frames from the video fo to 'UNKNOWN' directory.  
+		5) Delete the video.  
+		
+
 ## take_video.py  
 	Take videos. Add a video to videos directory.  
 	> python take_video.py
