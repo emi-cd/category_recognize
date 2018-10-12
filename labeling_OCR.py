@@ -22,7 +22,7 @@ from PIL import Image
 from PIL import ImageEnhance
 import pytesseract
 import glob
-import shutil, os, re
+import shutil, os, re, argparse
 
 from split_video import video_2_frames
 
@@ -54,25 +54,24 @@ def resize(img, size=2):
 def rotate(img, deg):
 	return img.rotate(deg)
 
-def sharpness(img, SHARPNESS=2.0):
+def sharpness(img, SHARPNESS=1.5):
 	sharpness_converter = ImageEnhance.Sharpness(img)
 	sharpness_img = sharpness_converter.enhance(SHARPNESS)
 	return sharpness_img
 
-def contrast(img, CONTRAST=2.0):
+def contrast(img, CONTRAST=1.5):
 	contrast_converter = ImageEnhance.Contrast(img)
 	contrast_img = contrast_converter.enhance(CONTRAST)
 	return contrast_img
 
-def brightness(img, BRIGHTNESS = 2.0):
+def brightness(img, BRIGHTNESS = 1.5):
 	brightness_converter = ImageEnhance.Brightness(img)
 	brightness_img = brightness_converter.enhance(BRIGHTNESS)
 	return brightness_img
 
 
 # Return all text.
-def get_text(img, deg):
-	img = sharpness(resize(rotate(img, deg)))
+def get_text(img):
 	return pytesseract.image_to_string(img, lang='eng')
 
 
@@ -82,8 +81,10 @@ def find_keywords(imgs, debug=False):
 		if debug:
 			print('*', end='', flush=True)
 
+		img = resize(img)
 		for deg in [0.0, 90.0, 180.0, 270.0]:
-			text = get_text(img, deg)
+			img = rotate(img, deg)
+			text = get_text(img)
 			text = text.upper()
 
 			for category, lst in klst:
