@@ -5,7 +5,7 @@
 	~~~~~~~~~~~~~~~~
 
 	Main flow. Video format should be .mov.
-	LABEL : Label the battery
+	LABEL(Default) : Label the battery
 	RETRAIN : Retrain the model and maintain the number of training data. 
 
 	Dependency::
@@ -13,9 +13,9 @@
 		Package : Please look requirements.txt 
 
 	Usage::
-	>>> python main.py --mode LABEl 
+	>>> python main.py --debug
 	or
-	>>> python main.py --mode RETRAIN
+	>>> python main.py -R --debug
 """
 import argparse
 import glob
@@ -42,7 +42,7 @@ parser = argparse.ArgumentParser(
 			epilog='end',
 			add_help=True,
 			)
-parser.add_argument('--mode', help="Choose 'LABEL' or 'RETRAIN'." , required=True, choices=[LABEL, RETRAIN])
+parser.add_argument('-R', '--retrain', help="Mode of Retraining.", action='store_true', required=False)
 parser.add_argument('-I', '--input', help="Path to the input video directory. Default is './videos'.", required=False, default='./videos')
 parser.add_argument('-T', '--train', help="Path to the train data directory. Default is './train_data'.", required=False, default='./train_data')
 parser.add_argument('--model', help='Choose model. Default is "./models/model.h5".', required=False,
@@ -56,14 +56,14 @@ def main():
 	""" Roop. ** WARNING ** It is infinite loop!!
 		If there are no videos, it become stopping for 10 seconds.
 	"""
-	if args.mode == LABEL:
+	if not args.retrain:
 		while True:
 			videos = glob.glob(args.input + '/*.mov')
 			if len(videos) > 0:
 				label(videos)
 			else:
 				sleep(10)
-	elif args.mode == RETRAIN:
+	elif args.retrain:
 			model = load_model(args.model)
 			path, file = os.path.split(args.model)
 			model.save(path + '/old_' + file)

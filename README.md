@@ -99,9 +99,10 @@ Please use as a module.
 
 # Usage
 ## Main flow
-> python main.py --mode LABEL  
+> python main.py  
 
 and  
 > python take_video.py
+
 ## Retraining the model
-> python main.py --mode RETRAIN
+> python main.py -R
