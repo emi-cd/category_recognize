@@ -55,7 +55,7 @@ def main(args):
 
 	if args.debug:
 		print('Training with new batteries...')
-	es_cb = EarlyStopping(monitor='val_loss', patience=3, mode='auto', restore_best_weights=True)
+	es_cb = EarlyStopping(monitor='val_loss', patience=2, mode='auto', restore_best_weights=True)
 	history = model.fit(X_train, y_train, batch_size=32, epochs=50, callbacks=[es_cb], validation_data=(X_test, y_test), verbose=int(args.debug))
 
 	model.save(args.model)
