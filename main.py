@@ -75,7 +75,7 @@ def main():
 			history = model.fit(X_train, y_train, batch_size=32, epochs=50, callbacks=[es_cb], validation_data=(X_test, y_test), verbose=int(args.debug))
 			model.save(args.model)
 
-			maintain(args.train, 50)
+			maintain(args.train, 600)
 
 
 def label(videos):

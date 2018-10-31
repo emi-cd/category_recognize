@@ -3,7 +3,7 @@ Sort batteries by category
 
 
 ## Main Idea
-![summary](https://github.com/emi-cd/category_recognize/blob/img/imgs/summary.jpg?raw=true)
+![summary](https://github.com/emi-cd/category_recognize/blob/img/imgs/flow.png?raw=true)
 
 
 # Dependency
