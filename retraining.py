@@ -28,7 +28,7 @@ import split_video
 
 # Constant
 LABEL = ["ALKALINE", "LIION", "NIMH", "NICD"]
-IMAGE_SIZE = 150
+IMAGE_SIZE = 224
 
 
 def main(args):

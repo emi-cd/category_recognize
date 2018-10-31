@@ -1,32 +1,34 @@
 # Battery
 Sort batteries by category
 
-
 ## Main Idea
 ![summary](https://github.com/emi-cd/category_recognize/blob/img/imgs/flow.png?raw=true)
 
 
-# Dependency
+
+# Testing environment
 python : 3.6.6  
 Packages : Please look requirements.txt  
-tesseract : 4.0.0
+tesseract 3.05.02  
+OS : macOS High Sierra 10.13.2
 
 
 # Setup
-1) Set directory like below.  
-But you don't need to prepare 'videos', 'UNKNOWN' and 'train_data' directory.  
-Please care that you have to set model.h5.  
+## 1) Set directory  
+Set directory like below. But you don't need to prepare 'train_data', 'UNKNOWN' and 'videos' directory.  
+**Please be careful that you have to put the model.** That model is used for prediction.   
+
 .  
-├── take_video.py  
-├── main.py  
-├── labeling_CNN.py  
-├── labeling_OCR.py   
-├── retraining.py  
+├── **take_video.py**  
+├── **main.py**  
+├── **labeling_CNN.py**  
+├── **labeling_OCR.py**   
+├── **retraining.py**  
 ├── README  
 ├── requirements.txt  
-├── models  
-│   ├── model1002_vgg16.h5  
-│   └── old_model1002_vgg16.h5  
+├── **models**  
+│   ├── model.h5  
+│   └── ...  
 ├── train_data  
 │   ├── ALKALINE  
 │   │   ├── 00000_0.jpg  
@@ -47,11 +49,19 @@ Please care that you have to set model.h5.
 └── videos  
     ├── IMG_0120.mov  
     └── ...  
-2) Install packages  
-> pip install -r requirements.txt  
-3) Install tesseract  
+
+## 2) Install packages  
+You can install necessary packages with the following command.  
+```
+pip install -r requirements.txt  
+```
+
+## 3) Install tesseract  
 - If you have homebrew  
-> brew install tesseract  
+```
+brew install tesseract  
+```
+
 
 
 # Description
@@ -73,36 +83,94 @@ Please care that you have to set model.h5.
 			4) These frames from the video fo to 'UNKNOWN' directory.  
 			5) Delete the video.  
 
-
 ## take_video.py  
-Take videos. Add a video to videos directory.  
-> python take_video.py
-## main.py  
-The main flow.  Retrain the model or label the battery.
-> python main.py --mode LABEL  
+Take videos. And add that video to videos directory.  
+You have to attach USB camera. If a red circle is in the upper left, it is recorded. If you want to stop this program, please enter 'q'. It is repeating.
+```
+python take_video.py
+```
+- argment
+	- '-T', '--time' : You can decide ength of video. Default is 20 seconds.
 
-or  
-> python main.py --mode RETRAIN
+## main.py  
+The main flow.  Retrain the model or label the battery. This program is repeating.
+Please see detail each packages.
+```
+python main.py
+```
+
+```
+python main.py --retrain
+```
+- argment
+	- '-R', '--retrain' : Mode of Retraining.
+	- '-I', '--input' : Path to the input video directory. Default is './videos'.
+	- '--model' : Choose model. Default is "./models/model.h5". In labeling mode, it is used for prediction and retraining this model in retraining mode.
+	- '-T', '--train' : It is use in retraining mode. Path to the training data directory. Default is './train_data'.
+	- '--debug' : Debug mode. Show more information when it running.
+
 ### labeling_CNN.py  
-Determine the label of battery from the video. Use OCR.  
-> python labeling_CNN.py --path ./videos/00000.mov -M ./models/model.h5 --debug -N 3
+Determine the label of battery from the vide by CNN.
+```  
+python labeling_CNN.py --path ./videos/00000.mov -M ./models/model.h5 -N 5
+```
+Now IMAGE_SIZE is 224 and **CORRECT_PROB is 0.95**. If the accuracy is 95% or more, the label will be determined. Less than 95% will be 'UNKNOWN'.
+
+- argment
+	- '-P', '--path' : Path to the video. It is required.
+	- '-M', '--model' : Choose model. Default is "./models/model.h5". But you have to choice a valid model.
+	- '-N', '--number' : Get this number of frames from the video and determine the label. Default is 3.  
+	So it decide from 3 labels like ['NIMH', 'NIMH', 'NIMH'] and it returns 'NIMH'. If it gets ['NIMH', 'NIMH', 'UNKNOWN'] or ['NIMH', 'NIMH', 'NICD'], it returns 'UNKNOWN'.
+	- '--debug' : Debug mode. Show more information when it running.
+
 ### labeling_OCR.py  
-Determine the label of battery from the video. Use CNN.  
-> python labeling_OCR.py --path './videos/00000.mov' --debug
+Determine the label of battery from the video by OCR.  
+```
+python labeling_OCR.py --path './videos/00000.mov' --debug
+```
+The frames from movie go to 'train_data' directory. For example, OCR detect 'NIMH', these frames go to 'train_data/NIMH'. (You can change this directory by using argment.) If OCR cannot detect Label, these data go to 'UNKNOWN' directory.
+
+- argment
+	- '-P', '--path' : Path to the video. Default is './videos'.
+	- '-F', '--frame' : Pick this number of frames from video. Default is 30.
+	- '-D', '--dest' : The path to the training data. Default is './train_data'.
+	- '--debug' : Debug mode. Show more information when it running.
+
 ### retraining.py  
 Retraining the model.
-> python retraining.py --model ./models/model.h5 --debug
+```
+python retraining.py --model ./models/model.h5 --debug
+```
+- argment
+	- '-M', '--model' : The model for retraining. Default is "./models/model.h5". But you have to choice a valid model.
+	- '-T', '--train' : Path to the train data. Default is ./train_data'. It have to have each labels directory.
+	- '-N', '--number' : The number os training data. Default is 1000. After retraining, the data is reduced to this number.
+	- '--debug' : Debug mode. Show more information when it running.
+
 ### split_video.py  
 This include cropping function and video_2_frame function.  
-Please use as a module.
+You can use like below.
+```python
+import split_video
+imgs = split_video.video_2_frames(./movie.mov, 30)
+```
+It returns list of 'Image' objects.
+
 
 
 # Usage
 ## Main flow
-> python main.py  
+You should run this 2 programs.
 
-and  
-> python take_video.py
+```
+python main.py  
+```
+```
+python take_video.py
+```
 
 ## Retraining the model
-> python main.py -R
+It takes time, so I recommend that you do it occasionally.
+```
+python main.py -R
+```
