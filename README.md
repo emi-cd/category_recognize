@@ -89,8 +89,10 @@ You have to attach USB camera. If a red circle is in the upper left, it is recor
 ```
 python take_video.py
 ```
-- argment
+- Argment
 	- '-T', '--time' : You can decide ength of video. Default is 20 seconds.
+- Output : The window like below will appear  
+![video](https://github.com/emi-cd/category_recognize/blob/img/imgs/video.png?raw=true)
 
 ## main.py  
 The main flow.  Retrain the model or label the battery. This program is repeating.
@@ -102,12 +104,14 @@ python main.py
 ```
 python main.py --retrain
 ```
-- argment
+- Argment
 	- '-R', '--retrain' : Mode of Retraining.
 	- '-I', '--input' : Path to the input video directory. Default is './videos'.
 	- '--model' : Choose model. Default is "./models/model.h5". In labeling mode, it is used for prediction and retraining this model in retraining mode.
 	- '-T', '--train' : It is use in retraining mode. Path to the training data directory. Default is './train_data'.
 	- '--debug' : Debug mode. Show more information when it running.
+- Output : Output is like below. [ID, Label]   
+	![Output image](https://github.com/emi-cd/category_recognize/blob/img/imgs/output.png?raw=true)
 
 ### labeling_CNN.py  
 Determine the label of battery from the vide by CNN.
@@ -116,12 +120,14 @@ python labeling_CNN.py --path ./videos/00000.mov -M ./models/model.h5 -N 5
 ```
 Now IMAGE_SIZE is 224 and **CORRECT_PROB is 0.95**. If the accuracy is 95% or more, the label will be determined. Less than 95% will be 'UNKNOWN'.
 
-- argment
+- Argment
 	- '-P', '--path' : Path to the video. It is required.
 	- '-M', '--model' : Choose model. Default is "./models/model.h5". But you have to choice a valid model.
 	- '-N', '--number' : Get this number of frames from the video and determine the label. Default is 3.  
 	So it decide from 3 labels like ['NIMH', 'NIMH', 'NIMH'] and it returns 'NIMH'. If it gets ['NIMH', 'NIMH', 'UNKNOWN'] or ['NIMH', 'NIMH', 'NICD'], it returns 'UNKNOWN'.
 	- '--debug' : Debug mode. Show more information when it running.
+
+
 
 ### labeling_OCR.py  
 Determine the label of battery from the video by OCR.  
@@ -130,7 +136,7 @@ python labeling_OCR.py --path './videos/00000.mov' --debug
 ```
 The frames from movie go to 'train_data' directory. For example, OCR detect 'NIMH', these frames go to 'train_data/NIMH'. (You can change this directory by using argment.) If OCR cannot detect Label, these data go to 'UNKNOWN' directory.
 
-- argment
+- Argment
 	- '-P', '--path' : Path to the video. Default is './videos'.
 	- '-F', '--frame' : Pick this number of frames from video. Default is 30.
 	- '-D', '--dest' : The path to the training data. Default is './train_data'.
@@ -141,7 +147,7 @@ Retraining the model.
 ```
 python retraining.py --model ./models/model.h5 --debug
 ```
-- argment
+- Argment
 	- '-M', '--model' : The model for retraining. Default is "./models/model.h5". But you have to choice a valid model.
 	- '-T', '--train' : Path to the train data. Default is ./train_data'. It have to have each labels directory.
 	- '-N', '--number' : The number os training data. Default is 1000. After retraining, the data is reduced to this number.
