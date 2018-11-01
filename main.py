@@ -5,7 +5,7 @@
 	~~~~~~~~~~~~~~~~
 
 	Main flow. Video format should be .mov.
-	LABEL : Label the battery
+	LABEL(Default) : Label the battery
 	RETRAIN : Retrain the model and maintain the number of training data. 
 
 	Dependency::
@@ -13,9 +13,9 @@
 		Package : Please look requirements.txt 
 
 	Usage::
-	>>> python main.py --mode LABEl 
+	>>> python main.py --debug
 	or
-	>>> python main.py --mode RETRAIN
+	>>> python main.py -R --debug
 """
 import argparse
 import glob
@@ -36,15 +36,15 @@ RETRAIN = 'RETRAIN'
 
 # Make parser.
 parser = argparse.ArgumentParser(
-			prog='roop.py', 
+			prog='main.py', 
 			usage='Main flow.', 
 			description='description...',
 			epilog='end',
 			add_help=True,
 			)
-parser.add_argument('--mode', help="Choose 'LABEL' or 'RETRAIN'." , required=True, choices=[LABEL, RETRAIN])
+parser.add_argument('-R', '--retrain', help="Mode of Retraining.", action='store_true', required=False)
 parser.add_argument('-I', '--input', help="Path to the input video directory. Default is './videos'.", required=False, default='./videos')
-parser.add_argument('-T', '--train', help="Path to the train data directory. Default is './train_data'.", required=False, default='./train_data')
+parser.add_argument('-T', '--train', help="Path to the training data directory. Default is './train_data'.", required=False, default='./train_data')
 parser.add_argument('--model', help='Choose model. Default is "./models/model.h5".', required=False,
 						default='./models/model.h5')
 parser.add_argument('--debug', help='Debug mode.', action='store_true', required=False, default=False)
@@ -56,15 +56,15 @@ def main():
 	""" Roop. ** WARNING ** It is infinite loop!!
 		If there are no videos, it become stopping for 10 seconds.
 	"""
-	if args.mode == LABEL:
+	model = load_model(args.model)
+	if not args.retrain:
 		while True:
 			videos = glob.glob(args.input + '/*.mov')
 			if len(videos) > 0:
-				label(videos)
+				label(videos, model)
 			else:
 				sleep(10)
-	elif args.mode == RETRAIN:
-			model = load_model(args.model)
+	elif args.retrain:
 			path, file = os.path.split(args.model)
 			model.save(path + '/old_' + file)
 
@@ -78,7 +78,7 @@ def main():
 			maintain(args.train, 600)
 
 
-def label(videos):
+def label(videos, model):
 	""" Take video. It keeps moving, as long as the video exists.
 		Output to stdout is battery's ID and label.
 
@@ -89,7 +89,7 @@ def label(videos):
 
 		# CNN
 		images = get_image_from_video(videos[0], 3)
-		label = get_label_from_images(images, args.model)
+		label = get_label_from_images(images, model)
 
 		# OCR
 		if label == UNKNOWN:

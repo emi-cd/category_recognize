@@ -28,7 +28,7 @@ from split_video import video_2_frames
 
 
 # Keyword
-alk = ("ALKALINE", ["ALKALI", "AALK", "LR6", "LR03", "LR20", "1.5V", "1,5V"])
+alk = ("ALKALINE", ["ALKALI", "ALK", "LR6", "LR03", "LR20", "1.5V", "1,5V"])
 nicd = ("NICD", ["NI-CD", "NICD", "KR6", "KR03", "KR20"])
 nimh = ("NIMH", ["NIMH", "MHNI", "NI-MH", "MH-NI", "HR14", "HR6", "HR03", "HR20"])
 liion = ("LIION", ["LIION", "LI-ION", "LITHIUM", "3,7V", "3.7V"])
@@ -54,6 +54,11 @@ def resize(img, size=2):
 def rotate(img, deg):
 	return img.rotate(deg)
 
+
+# You can arrange image*******************************************************
+# Please use in find_keywords()
+# e.g. img = resize(sharpness(img), 2.0)
+
 def sharpness(img, SHARPNESS=1.5):
 	sharpness_converter = ImageEnhance.Sharpness(img)
 	sharpness_img = sharpness_converter.enhance(SHARPNESS)
@@ -69,13 +74,26 @@ def brightness(img, BRIGHTNESS = 1.5):
 	brightness_img = brightness_converter.enhance(BRIGHTNESS)
 	return brightness_img
 
+#*****************************************************************************
 
-# Return all text.
+
 def get_text(img):
-	return pytesseract.image_to_string(img, lang='eng')
+	""" Get text from image by tesseract. The returned text is all upper case.
+
+		:param img: image :type: `Image` object
+		:return candidate: Recognized text :type: str
+	"""
+	text = pytesseract.image_to_string(img, lang='eng')
+	return text.upper()
 
 
 def find_keywords(imgs, debug=False):
+	""" Find keywords and return labels. e.g. ['NIMH', 'NIMH', 'UNKNOWN']
+
+		:param imgs: images :type: [`Image` object]
+		:param debug: :type: boolean
+		:return candidate: Return list of lables :type: [str]
+	"""
 	candidate = []
 	for img in imgs:
 		if debug:
@@ -85,7 +103,6 @@ def find_keywords(imgs, debug=False):
 		for deg in [0.0, 90.0, 180.0, 270.0]:
 			img = rotate(img, deg)
 			text = get_text(img)
-			text = text.upper()
 
 			for category, lst in klst:
 				for key in lst:
@@ -96,6 +113,12 @@ def find_keywords(imgs, debug=False):
 
 
 def judge(imgs, debug=False):
+	""" Return label
+
+		:param imgs: images :type: [`Image` object]
+		:param debug:  :type: boolean
+		:return: Label of battery :type: str
+	"""
 	candidate = find_keywords(imgs, debug)
 	if debug:
 		print('\nEstimate : ' + str(set(candidate)))

@@ -24,9 +24,9 @@ import numpy as np
 import split_video
 
 # Constant
-LABEL = ["Alkaline", "LIION", "NIMH", "NICD"]
+LABEL = ["ALKALINE", "LIION", "NIMH", "NICD"]
 UNKNOWN = "UNKNOWN"
-IMAGE_SIZE = 150
+IMAGE_SIZE = 224
 CORRECT_PROB = 0.95
 
 
@@ -43,7 +43,7 @@ def main(args):
 		exit(1)
 
 	images = get_image_from_video(args.path, args.number)
-	label = get_label_from_images(images, args.model, args.debug)
+	label = get_label_from_images(images, load_model(args.model), args.debug)
 	print(label)
 
 
@@ -133,15 +133,14 @@ def estimate_label(labels):
 
 
 
-def  get_label_from_images(images, model_path, debug=False):
+def  get_label_from_images(images, model, debug=False):
 	""" Predict the type of battery.
 		Model should be '*.h5'.
 
 		:param images: :type: [`Image` object]
-		:param model_path: path to the model :type: str
+		:param model: model(keras)
 		:return: the label of battery :type: str
 	"""
-	model = load_model(model_path)
 	processed = convert_data(images)
 
 	result =  model.predict(processed, verbose=int(debug))
@@ -162,11 +161,11 @@ if __name__ == "__main__":
 				epilog='end',
 				add_help=True,
 				)
-	parser.add_argument('-P', '--path', help='Path to the video to determine.', required=False)
+	parser.add_argument('-P', '--path', help='Path to the video to determine.', required=True)
 	parser.add_argument('-M', '--model', help='Choose model. Default is "./models/model.h5".', required=False,
 							default='./models/model.h5')
-	parser.add_argument('-N', '--number', help='The number of images to determine the label. Get this number of frames from the video. Default is 1.', 
-							required=False, type=int, default=1)
+	parser.add_argument('-N', '--number', help='The number of images to determine the label. Get this number of frames from the video. Default is 3.', 
+							required=False, type=int, default=3)
 	parser.add_argument('--debug', help='Debug mode.', action='store_true', required=False, default=False)
 
 	# parse thearguments.

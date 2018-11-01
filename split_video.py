@@ -10,11 +10,25 @@
 	Usage::
 	>>> import split_video
 	>>> split_video.video_2_frames(./movie.mov, 30)
-	Now you can get 30 frames from a moview.mov.
+	Now you can get 30 frames from a movie.mov.
 """
-import os
+import os, glob
 import cv2
 from PIL import Image
+
+def main():
+	videos = glob.glob('videos/*.mov')
+	for video in videos:
+		name, _ = os.path.splitext(os.path.basename(video))
+		dir_name = 'Img/' + name + '/'
+
+		if not os.path.exists(dir_name):
+			os.makedirs(dir_name)
+
+		imgs = video_2_frames(video, 30)
+		for i, img in enumerate(imgs):
+			img.save(dir_name + name + '_' + str(i) + '.jpg')
+
 
 def crop_center(pil_img, crop_width, crop_height):
 	""" Crop the image of the center.
@@ -44,9 +58,8 @@ def video_2_frames(video_path, num_frame = 30):
 
 		:param video_path: path to the video :type: str
 		:param num_frame: Pick this number of frames. :type: int
-		:return images: list of image from video :type: [`Image` object]
+		:return images: list of images from video :type: [`Image` object]
 	"""
-	# make the image dirctory if it doesn't exsist.
 	if not os.path.exists(video_path):
 		print("Path to the video does not exist : " + video_path)
 		exit(1)
@@ -71,3 +84,6 @@ def video_2_frames(video_path, num_frame = 30):
 	video.release()
 
 	return images
+
+if __name__ == '__main__':
+	main()

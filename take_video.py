@@ -45,6 +45,11 @@ def main():
 			index = int(f.read())
 
 	cap = cv2.VideoCapture(1)
+
+	cap.set(cv2.CAP_PROP_AUTOFOCUS, 0) # turn the autofocus off
+	cap.set(3, 1280) # set the Horizontal resolution
+	cap.set(4, 720) # Set the Vertical resolution
+
 	# Define the codec and create VideoWriter object
 	fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
 	fps = 20.0
@@ -91,9 +96,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
-
-
-
-
-
