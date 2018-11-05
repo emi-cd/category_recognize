@@ -2,14 +2,15 @@
 
 """
 	main.py
+	Copyright (c) 2018 emi
 	~~~~~~~~~~~~~~~~
 
 	Main flow. Video format should be .mov.
 	LABEL(Default) : Label the battery
 	RETRAIN : Retrain the model and maintain the number of training data. 
 
-	Dependency::
-		python : 3.6.*  
+	Test environment::
+		python : 3.6.6  
 		Package : Please look requirements.txt 
 
 	Usage::
@@ -83,6 +84,7 @@ def label(videos, model):
 		Output to stdout is battery's ID and label.
 
 		:param videos: Path to the video directory :type: str
+		:param model: :type: keras model
 	"""
 	while len(videos) > 0:
 		ID, _ = os.path.splitext(os.path.basename(videos[0]))

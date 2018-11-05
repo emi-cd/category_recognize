@@ -85,7 +85,8 @@ brew install tesseract
 
 ## take_video.py  
 Take videos. And add that video to videos directory.  
-You have to attach USB camera. If a red circle is in the upper left, it is recorded. If you want to stop this program, please enter 'q'. It is repeating.
+You have to attach USB camera. If a red circle is in the upper left, it is recorded. If you want to stop this program, please enter 'q'. It is repeating.  
+The first battery is 00000, the next is 00001, 00002, .... When that number goes to 99999, it goes back to 00000. Since this number is saved, even if you stop the program once, it starts with the next number. 
 ```
 python take_video.py
 ```
@@ -93,6 +94,7 @@ python take_video.py
 	- '-T', '--time' : You can decide ength of video. Default is 20 seconds.
 - Output : The window like below will appear  
 ![video](https://github.com/emi-cd/category_recognize/blob/img/imgs/video.png?raw=true)
+
 
 ## main.py  
 The main flow.  Retrain the model or label the battery. This program is repeating.

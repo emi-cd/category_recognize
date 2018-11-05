@@ -2,14 +2,16 @@
 
 """
 	split_video.py
+	Copyright (c) 2018 emi
 	~~~~~~~~~~~~~~~
 
-	Dependency::
-		python : 3.6.*
+	Test environment::
+		python : 3.6.6
+		Package : Please see requirements.txt
 
 	Usage::
-	>>> import split_video
-	>>> split_video.video_2_frames(./movie.mov, 30)
+		>>> import split_video
+		>>> split_video.video_2_frames(./movie.mov, 30)
 	Now you can get 30 frames from a movie.mov.
 """
 import os, glob

@@ -2,12 +2,13 @@
 
 """
 	labeling_CNN.py
+	Copyright (c) 2018 emi
 	~~~~~~~~~~~~~~~~
 
 	Determine the label of battery from the video. Use CNN.
 
-	Dependency::
-		python : 3.6.*  
+	Test environment::
+		python : 3.6.6  
 		Package : Please look requirements.txt 
 
 	Usage::

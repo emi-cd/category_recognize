@@ -2,17 +2,17 @@
 
 """
 	larning_OCR.py
-	~~~~~~~~~~~~~~~
+	Copyright (c) 2018 emi
+	~~~~~~~~~~~~~~~~
 
 	Determine the type of battery from the video by OCR.
 	Use tesseract to recognize charactor.
-	s
 	1) Split the video into frames
-	2) Label the battery  with OCR.
+	2) Label the battery with OCR.
 	3) Saving frames to the directory of their label
 
-	Dependency::
-		python : 3.6.*
+	Test environment::
+		python : 3.6.6
 		Package : Please look requirements.txt 
 
 	Usage::

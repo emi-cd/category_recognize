@@ -2,12 +2,13 @@
 
 """
 	retraining.py
-	~~~~~~~~~~~~~~~
+	Copyright (c) 2018 emi
+	~~~~~~~~~~~~~~~~
 
 	Retraining the model. Train data should be .jpg.
 
-	Dependency::
-		python : 3.6.*
+	Test environment::
+		python : 3.6.6
 		Package : Please look requirements.txt 
 
 	Usage::
@@ -26,7 +27,6 @@ from sklearn.model_selection import train_test_split
 
 import split_video
 
-# Constant
 LABEL = ["ALKALINE", "LIION", "NIMH", "NICD"]
 IMAGE_SIZE = 224
 
@@ -94,6 +94,13 @@ def process_train_data(path):
 	return X, Y
 
 def maintain(train, number):
+	""" Maintain the number of training images.
+
+
+		:param train: The path to the train data. :type: str
+		:param number: The training data should be maintained this number. :type: int
+		:return X: image data for CNN :type: [[[float]]] (data of image)
+	"""
 	for folder in glob.glob(train + '/*'):
 		files = glob.glob(folder + '/*.jpg')
 		if len(files) > number:

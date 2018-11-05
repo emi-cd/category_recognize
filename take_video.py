@@ -2,16 +2,18 @@
 
 """
 	take_video.py
+	Copyright (c) 2018 emi
 	~~~~~~~~~~~~~~~
 
-	Take video.
+	Take video. If you use USB camera, please set like cv2.VideoCapture(1). 
+	If you use another camera, change this number.
 
-	Dependency::
-		python : 3.6.*
+	Test environment::
+		python : 3.6.6
 		Package : Please look requirements.txt 
 
 	Usage::
-	>>> python take_video.py
+		>>> python take_video.py
 	if you want to stop this program, please enter 'q'.
 
 """
