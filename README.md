@@ -67,20 +67,20 @@ brew install tesseract
 # Description
 	1) Take videos. These videos go to 'videos' directory.  
 		Video's name is  battery's ID.  
-	2) Label the battery using by CNN. It return ['Alkaline', 'LIION', 'NIMH', 'NICD'] or 'UNKOWN'.  
+	2) Label the battery using by CNN. It return ['ALKALINE', 'LIION', 'NIMH', 'NICD'] or 'UNKNOWN'.  
 
 	If Label is not 'UNKNOWN':  
 		3) Print ID, LABEL  
 		4) Delete the video.  
 	Else:  
-		3) Go to OCR. OCR recognize charactor. Also it should return ['Alkaline', 'LIION', 'NIMH', 'NICD'] or 'UNKOWN'.
+		3) Go to OCR. OCR recognize charactor. Also it should return ['ALKALINE', 'LIION', 'NIMH', 'NICD'] or 'UNKNOWN'.
 
 		If Label is not 'UNKNOWN':  
 			4) These frames from the video go to 'train_data' directory.  
 			5) Print ID, LABEL  
 			6) Delete the video.  
 		Else:  
-			4) These frames from the video fo to 'UNKNOWN' directory.  
+			4) These frames from the video go to 'UNKNOWN' directory.  
 			5) Delete the video.  
 
 ## take_video.py  
