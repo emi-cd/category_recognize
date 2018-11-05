@@ -182,3 +182,7 @@ It takes time, so I recommend that you do it occasionally.
 ```
 python main.py -R
 ```
+
+# License
+Copyright (c) 2018 emi
+
